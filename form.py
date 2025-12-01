@@ -50,6 +50,7 @@ class Ui_Form(object):
         self.textBrowser = QTextBrowser(Form)
         self.textBrowser.setObjectName(u"textBrowser")
         self.textBrowser.setGeometry(QRect(10, 20, 256, 192))
+        self.textBrowser.setReadOnly(False)
         self.label_3 = QLabel(Form)
         self.label_3.setObjectName(u"label_3")
         self.label_3.setGeometry(QRect(10, 0, 61, 16))
