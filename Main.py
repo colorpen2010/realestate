@@ -18,10 +18,12 @@ def add_ad(type,cost,address):
 ui_window=Ui_MainWindow()
 app=QApplication()
 window=QMainWindow()
-ad_form=ad_forms.Ad_form()
+ad_form=ad_forms.Ad_form(add_ad)
 
 ui_window.setupUi(window)
 ui_window.addnew_form.clicked.connect(ad_form.ad_opener)
+ui_window.tableWidget.doubleClicked.connect(lambda: print(model.data(ui_window.tableWidget.currentIndex())))
+ui_window.editor_button.clicked.connect(lambda: ad_form.ad_editor('1','mshk_fredi','Жилой'))
 
 model=ui_window.tableWidget.model()
 
