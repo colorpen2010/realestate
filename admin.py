@@ -1,26 +1,33 @@
+import json
+
 from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QWidget
-from PySide6.QtGui import QPixmap, QPen, QStandardItemModel, QStandardItem
-from PySide6.QtMultimedia import QSoundEffect, QMediaPlayer
-from PySide6.QtCore import QUrl, QModelIndex, QTime, QDate
 
 import ad_forms
-from mainwindow import Ui_MainWindow
+from admin_window import Ui_MainWindow
 from form import Ui_Form
 
 
-def add_ad(type, cost, address,tec_row=None):
+def add_ad(type, cost, address, tec_row=None):
     global id
-    if tec_row!=None:
-        last_row=tec_row
+    if tec_row != None:
+        last_row = tec_row
     else:
         last_row = model.rowCount()
         model.insertRow(last_row)
         model.setData(model.index(last_row, 4), id)
-        id+=1
+        id += 1
     print(last_row)
     model.setData(model.index(last_row, 0), type)
     model.setData(model.index(last_row, 1), cost)
     model.setData(model.index(last_row, 2), address)
+    slovar3 = {}
+    spisok = []
+    for a in range(model.rowCount()):
+        for o in range(model.columnCount()):
+            slovar3[o] = model.data(model.index(a, o))
+        spisok.append(slovar3)
+    selling = open('selling.json', "w+")
+    json.dump(spisok, selling,indent=4)
 
 
 def edit_ad():
@@ -38,7 +45,7 @@ ui_window = Ui_MainWindow()
 app = QApplication()
 window = QMainWindow()
 ad_form = ad_forms.Ad_form(add_ad)
-id=0
+id = 0
 
 ui_window.setupUi(window)
 ui_window.addnew_form.clicked.connect(ad_form.ad_opener)
