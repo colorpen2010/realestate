@@ -1,33 +1,38 @@
 import json
-
 from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QWidget
 
-import ad_forms
+import ad_forms, os
 from admin_window import Ui_MainWindow
 from form import Ui_Form
-
 
 def add_ad(type, cost, address, tec_row=None):
     global id
     if tec_row != None:
+        print(tec_row)
         last_row = tec_row
+        # id=model.data()
     else:
         last_row = model.rowCount()
         model.insertRow(last_row)
         model.setData(model.index(last_row, 4), id)
         id += 1
-    print(last_row)
+
     model.setData(model.index(last_row, 0), type)
     model.setData(model.index(last_row, 1), cost)
     model.setData(model.index(last_row, 2), address)
-    slovar3 = {}
-    spisok = []
+    kenobi_file_manager={}
+    ads = []
     for a in range(model.rowCount()):
+        slovar3 = {}
         for o in range(model.columnCount()):
             slovar3[o] = model.data(model.index(a, o))
-        spisok.append(slovar3)
-    selling = open('selling.json', "w+")
-    json.dump(spisok, selling,indent=4)
+        ads.append(slovar3)
+
+    kenobi_file_manager['next_ID']=id
+    kenobi_file_manager['ADS']=ads
+    selling = open(os.path.dirname(__file__)+'\\selling.json', "w+")
+    json.dump(kenobi_file_manager, selling, indent=4)
+
 
 
 def edit_ad():
@@ -37,7 +42,8 @@ def edit_ad():
     type = model.data(model.index(tec_row, 0))
     cost = model.data(model.index(tec_row, 1))
     address = model.data(model.index(tec_row, 2))
-    ad_form.ad_editor(cost, address, type, tec_row)
+    rid=model.data(model.index(tec_row,4))
+    ad_form.ad_editor(cost, address, type, rid)
 
 
 # model=QStandardItemModel(0, 3)
@@ -56,13 +62,25 @@ ui_window.tableWidget.hideColumn(3)
 # ui_window.tableWidget.hideColumn(4)
 
 model = ui_window.tableWidget.model()
+selling = open(os.path.dirname(__file__)+'\\selling.json', "r+")
+# print(json.load(selling))
+timed_spisok = json.load(selling)
+id=timed_spisok['next_ID']
+timed_spisok=timed_spisok['ADS']
+selling.close()
+# print(timed_slovar)
+for i in timed_spisok:
+    last_row = model.rowCount()
+    model.insertRow(last_row)
+    for o in i:
+        model.setData(model.index(last_row, int(o)), i[o])
 
 ui_window.tableWidget.setColumnWidth(0, 150)
 ui_window.tableWidget.setColumnWidth(1, 150)
 ui_window.tableWidget.setColumnWidth(2, 150)
 
-add_ad('Жилое', '9837.38', 'Planet_Core')
-add_ad('Коммерция', '87354.83', '1001 km from Earth')
+# add_ad('Жилое', '9837.38', 'Planet_Core')
+# add_ad('Коммерция', '87354.83', '1001 km from Earth')
 
 window.show()
 app.exec()
