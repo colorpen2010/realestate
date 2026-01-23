@@ -4,6 +4,7 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QWidget
 import ad_forms, os
 from admin_window import Ui_MainWindow
 from form import Ui_Form
+import foundation
 
 
 def add_ad(type, cost, address,descruption, rid=None):
@@ -79,18 +80,9 @@ ui_window.tableWidget.hideColumn(3)
 # ui_window.tableWidget.hideColumn(4)
 
 model = ui_window.tableWidget.model()
-selling = open(os.path.dirname(__file__) + '\\selling.json', "r+")
-# print(json.load(selling))
-timed_spisok = json.load(selling)
-id = timed_spisok['next_ID']
-timed_spisok = timed_spisok['ADS']
-selling.close()
+timed_spisok,id=foundation.selling_loader()
 # print(timed_slovar)
-for i in timed_spisok:
-    last_row = model.rowCount()
-    model.insertRow(last_row)
-    for o in i:
-        model.setData(model.index(last_row, int(o)), i[o])
+
 
 ui_window.tableWidget.setColumnWidth(0, 150)
 ui_window.tableWidget.setColumnWidth(1, 150)

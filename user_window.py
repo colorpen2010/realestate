@@ -17,7 +17,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QDoubleSpinBox, QHeaderView, QLineEdit,
     QMainWindow, QMenuBar, QRadioButton, QSizePolicy,
-    QStatusBar, QTableWidget, QTableWidgetItem, QWidget)
+    QStatusBar, QTableView, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -26,18 +26,15 @@ class Ui_MainWindow(object):
         MainWindow.resize(800, 600)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.tableWidget = QTableWidget(self.centralwidget)
-        self.tableWidget.setObjectName(u"tableWidget")
-        self.tableWidget.setGeometry(QRect(60, 120, 671, 411))
-        self.radioButton = QRadioButton(self.centralwidget)
-        self.radioButton.setObjectName(u"radioButton")
-        self.radioButton.setGeometry(QRect(630, 90, 89, 20))
-        self.radioButton_2 = QRadioButton(self.centralwidget)
-        self.radioButton_2.setObjectName(u"radioButton_2")
-        self.radioButton_2.setGeometry(QRect(630, 60, 89, 20))
-        self.radioButton_3 = QRadioButton(self.centralwidget)
-        self.radioButton_3.setObjectName(u"radioButton_3")
-        self.radioButton_3.setGeometry(QRect(630, 30, 89, 20))
+        self.both_types = QRadioButton(self.centralwidget)
+        self.both_types.setObjectName(u"both_types")
+        self.both_types.setGeometry(QRect(630, 90, 89, 20))
+        self.commercial_type = QRadioButton(self.centralwidget)
+        self.commercial_type.setObjectName(u"commercial_type")
+        self.commercial_type.setGeometry(QRect(630, 60, 89, 20))
+        self.living_type = QRadioButton(self.centralwidget)
+        self.living_type.setObjectName(u"living_type")
+        self.living_type.setGeometry(QRect(630, 30, 89, 20))
         self.lineEdit = QLineEdit(self.centralwidget)
         self.lineEdit.setObjectName(u"lineEdit")
         self.lineEdit.setGeometry(QRect(320, 90, 113, 22))
@@ -50,6 +47,9 @@ class Ui_MainWindow(object):
         self.doubleSpinBox.setDecimals(0)
         self.doubleSpinBox.setMaximum(10000000.000000000000000)
         self.doubleSpinBox.setSingleStep(10.000000000000000)
+        self.tableView = QTableView(self.centralwidget)
+        self.tableView.setObjectName(u"tableView")
+        self.tableView.setGeometry(QRect(60, 120, 681, 401))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
@@ -66,8 +66,8 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.radioButton.setText(QCoreApplication.translate("MainWindow", u"RadioButton", None))
-        self.radioButton_2.setText(QCoreApplication.translate("MainWindow", u"RadioButton", None))
-        self.radioButton_3.setText(QCoreApplication.translate("MainWindow", u"RadioButton", None))
+        self.both_types.setText(QCoreApplication.translate("MainWindow", u"RadioButton", None))
+        self.commercial_type.setText(QCoreApplication.translate("MainWindow", u"RadioButton", None))
+        self.living_type.setText(QCoreApplication.translate("MainWindow", u"RadioButton", None))
     # retranslateUi
 
