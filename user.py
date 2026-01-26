@@ -13,6 +13,7 @@ ui_window.setupUi(window)
 
 ads_fond=foundation.AdsModel()
 ui_window.tableView.setModel(ads_fond)
+
 # timed_spisok, id = foundation.Aselling_loader()
 
 window.show()

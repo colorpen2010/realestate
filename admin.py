@@ -37,19 +37,7 @@ def yoda(id):
     return winner
 
 
-def saver():
-    kenobi_file_manager = {}
-    ads = []
-    for a in range(model.rowCount()):
-        slovar3 = {}
-        for o in range(model.columnCount()):
-            slovar3[o] = model.data(model.index(a, o))
-        ads.append(slovar3)
 
-    kenobi_file_manager['next_ID'] = id
-    kenobi_file_manager['ADS'] = ads
-    selling = open(os.path.dirname(__file__) + '\\selling.json', "w+")
-    json.dump(kenobi_file_manager, selling, indent=4)
 
 
 def edit_ad():

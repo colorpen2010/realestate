@@ -8,31 +8,44 @@ from form import Ui_Form
 class AdsModel(QAbstractTableModel):
     def __init__(self):
         QAbstractTableModel.__init__(self,None)
-        self.spisok=[8,9,7,5,2,3,6,8,4,2,7,1]
+        self.spisok,self.id=self.selling_loader()
+        print(self.spisok)
+        self.colonki={0:'Type',1:'Cost',2:'Address'}
+        # self.spisok=[8,9,7,5,2,3,6,8,4,2,7,1]
     def rowCount(self, /, parent=...):
         return len(self.spisok)
 
     def columnCount(self, /, parent=...):
-        return 2
+        return 3
 
     def headerData(self, section, orientation, /, role=...):
-        if role != Qt.ItemDataRole.DisplayRole:
-            return
-        return 'E'
+        if role == Qt.ItemDataRole.DisplayRole and orientation==Qt.Orientation.Horizontal:
+            return self.colonki[section]
+
 
     def data(self, index:QModelIndex, /, role=...):
         if role == Qt.ItemDataRole.FontRole:
             font = QFont()
-            font.setPointSize(20)
+            font.setPointSize(10)
             return font
         if role == Qt.ItemDataRole.DisplayRole and index.column()==0:
-            return self.spisok[index.row()]
-        if role == Qt.ItemDataRole.DisplayRole and index.column() == 1:
-            spsk=self.spisok[index.row()]
-            return spsk*spsk
+            return self.spisok[index.row()]['0']
+        if role == Qt.ItemDataRole.DisplayRole and index.column()==1:
+            return self.spisok[index.row()]['1']
+        if role == Qt.ItemDataRole.DisplayRole and index.column()==2:
+            return self.spisok[index.row()]['2']
         return
 
+    def setData(self, index, value, /, role = ...):
+        self.spisok[index.row()][str(index.column())]=value
+        self.saver()
+        print(self.spisok)
+        return True
 
+    def flags(self, index, /):
+        return Qt.ItemFlag.ItemIsEditable | Qt.ItemFlag.ItemIsEnabled | Qt.ItemFlag.ItemIsSelectable
+
+    @staticmethod
     def selling_loader():
         selling = open(os.path.dirname(__file__) + '\\selling.json', "r+")
         # print(json.load(selling))
@@ -42,10 +55,17 @@ class AdsModel(QAbstractTableModel):
         selling.close()
         return timed_spisok, id
 
+    def saver(self):
+        kenobi_file_manager = {}
+        ads = []
+        for a in range(self.rowCount()):
+            slovar3 = {}
+            for o in range(self.columnCount()):
+                slovar3[o] = self.data(self.index(a, o),role=Qt.ItemDataRole.DisplayRole)
+            ads.append(slovar3)
 
-def selling_unloader():
-    for i in timed_spisok:
-        last_row = model.rowCount()
-        model.insertRow(last_row)
-        for o in i:
-            model.setData(model.index(last_row, int(o)), i[o])
+        kenobi_file_manager['next_ID'] = self.id
+        kenobi_file_manager['ADS'] = ads
+        selling = open(os.path.dirname(__file__) + '\\selling.json', "w+")
+        json.dump(kenobi_file_manager, selling, indent=4)
+        selling.close()
