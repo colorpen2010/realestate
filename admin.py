@@ -24,7 +24,6 @@ def add_ad(type, cost, address,descruption, rid=None):
     model.setData(model.index(last_row, 1), cost)
     model.setData(model.index(last_row, 2), address)
     model.setData(model.index(last_row,3), descruption)
-    saver()
 
 
 def yoda(id):
@@ -41,7 +40,7 @@ def yoda(id):
 
 
 def edit_ad():
-    tec_row = ui_window.tableWidget.currentRow()
+    tec_row = ui_window.tableView.currentRow()
     if tec_row == -1:
         return
     type = model.data(model.index(tec_row, 0))
@@ -61,20 +60,21 @@ id = 0
 
 ui_window.setupUi(window)
 ui_window.addnew_form.clicked.connect(ad_form.ad_opener)
-ui_window.tableWidget.doubleClicked.connect(lambda: print(model.data(ui_window.tableWidget.currentIndex())))
+ui_window.tableView.doubleClicked.connect(lambda: print(model.data(ui_window.tableView.currentIndex())))
 ui_window.editor_button.clicked.connect(edit_ad)
 
-ui_window.tableWidget.hideColumn(3)
-# ui_window.tableWidget.hideColumn(4)
 
-model = ui_window.tableWidget.model()
-timed_spisok,id=foundation.selling_loader()
+ui_window.tableView.setModel(foundation.AdsModel())
+model:foundation.AdsModel = ui_window.tableView.model()
+# timed_spisok,id=model.selling_loader()
 # print(timed_slovar)
 
+ui_window.tableView.hideColumn(3)
+ui_window.tableView.hideColumn(4)
 
-ui_window.tableWidget.setColumnWidth(0, 150)
-ui_window.tableWidget.setColumnWidth(1, 150)
-ui_window.tableWidget.setColumnWidth(2, 150)
+ui_window.tableView.setColumnWidth(0, 150)
+ui_window.tableView.setColumnWidth(1, 150)
+ui_window.tableView.setColumnWidth(2, 150)
 
 # add_ad('Жилое', '9837.38', 'Planet_Core')
 # add_ad('Коммерция', '87354.83', '1001 km from Earth')
