@@ -7,40 +7,10 @@ from form import Ui_Form
 import foundation
 
 
-def add_ad(type, cost, address,descruption, rid=None):
-    global id
-    if rid != None:
-        last_row = yoda(rid)
-        # id=model.data()
-    else:
-        last_row = model.rowCount()
-        model.insertRow(last_row)
-        model.setData(model.index(last_row, 4), id)
-        id += 1
-    if last_row==-1:
-        print("ia ne mogy rabotat v takix ysloviax")
-        return
-    model.setData(model.index(last_row, 0), type)
-    model.setData(model.index(last_row, 1), cost)
-    model.setData(model.index(last_row, 2), address)
-    model.setData(model.index(last_row,3), descruption)
-
-
-def yoda(id):
-    winner=-1
-    for o in range(model.rowCount()):
-        id_candidate = model.data(model.index(o, 4))
-        # print(id_candidate)
-        if id_candidate == id:
-            winner=o
-    return winner
-
-
-
 
 
 def edit_ad():
-    tec_row = ui_window.tableView.currentRow()
+    tec_row = ui_window.tableView.selectionModel().currentIndex().row()
     if tec_row == -1:
         return
     type = model.data(model.index(tec_row, 0))
@@ -55,17 +25,18 @@ def edit_ad():
 ui_window = Ui_MainWindow()
 app = QApplication()
 window = QMainWindow()
-ad_form = ad_forms.Ad_form(add_ad)
 id = 0
 
+
 ui_window.setupUi(window)
+ui_window.tableView.setModel(foundation.AdsModel())
+model:foundation.AdsModel = ui_window.tableView.model()
+ad_form = ad_forms.Ad_form(model.add_ad)
 ui_window.addnew_form.clicked.connect(ad_form.ad_opener)
 ui_window.tableView.doubleClicked.connect(lambda: print(model.data(ui_window.tableView.currentIndex())))
 ui_window.editor_button.clicked.connect(edit_ad)
 
 
-ui_window.tableView.setModel(foundation.AdsModel())
-model:foundation.AdsModel = ui_window.tableView.model()
 # timed_spisok,id=model.selling_loader()
 # print(timed_slovar)
 

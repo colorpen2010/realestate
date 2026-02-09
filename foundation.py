@@ -33,12 +33,9 @@ class AdsModel(QAbstractTableModel):
             font = QFont()
             font.setPointSize(10)
             return font
-        if role == Qt.ItemDataRole.DisplayRole and index.column() == 0:
-            return self.spisok[index.row()]['0']
-        if role == Qt.ItemDataRole.DisplayRole and index.column() == 1:
-            return self.spisok[index.row()]['1']
-        if role == Qt.ItemDataRole.DisplayRole and index.column() == 2:
-            return self.spisok[index.row()]['2']
+        if role == Qt.ItemDataRole.DisplayRole:
+            if index.column() in [0,1,2,3,4] :
+                return self.spisok[index.row()][str(index.column())]
         return
 
     def setData(self, index, value, /, role=...):
@@ -67,9 +64,34 @@ class AdsModel(QAbstractTableModel):
             for o in range(self.columnCount()):
                 slovar3[o] = self.data(self.index(a, o), role=Qt.ItemDataRole.DisplayRole)
             ads.append(slovar3)
-
         kenobi_file_manager['next_ID'] = self.id
         kenobi_file_manager['ADS'] = ads
         selling = open(os.path.dirname(__file__) + '\\selling.json', "w+")
         json.dump(kenobi_file_manager, selling, indent=4)
-        selling.close()
+
+    def add_ad(self,type, cost, address,descruption, rid=None):
+        if rid != None:
+            last_row = self.yoda(rid)
+            # id=model.data()
+        else:
+            last_row = self.rowCount()
+            self.insertRow(last_row)
+            self.setData(self.index(last_row, 4), self.id)
+            self.id += 1
+        if last_row==-1:
+            print("ia ne mogy rabotat v takix ysloviax")
+            return
+        self.setData(self.index(last_row, 0), type)
+        self.setData(self.index(last_row, 1), cost)
+        self.setData(self.index(last_row, 2), address)
+        self.setData(self.index(last_row,3), descruption)
+
+    def yoda(self,id):
+        winner = -1
+        for o in range(self.rowCount()):
+            id_candidate = self.data(self.index(o, 4))
+            # print(id_candidate)
+            if id_candidate == id:
+                winner = o
+        return winner
+
