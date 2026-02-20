@@ -28,7 +28,7 @@ class AdsModel(QAbstractTableModel):
         if role == Qt.ItemDataRole.DisplayRole and orientation == Qt.Orientation.Horizontal:
             return self.colonki[section]
 
-    def data(self, index: QModelIndex, /, role=...):
+    def data(self, index: QModelIndex, /, role=Qt.ItemDataRole.DisplayRole):
         if role == Qt.ItemDataRole.FontRole:
             font = QFont()
             font.setPointSize(10)
