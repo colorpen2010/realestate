@@ -14,14 +14,18 @@ ui_window.setupUi(window)
 
 def adrs(text,type):
     filtr.setFilterKeyColumn(type)
-    filtr.setFilterFixedString(text)
+    filtr.setFilterFixedString(text,type)
+
+def nmbrs(text,type):
+    filtr.setFilterKeyColumn(type)
+    filtr.setFilterFixedint(text)
 
 ads_fond=foundation.AdsModel()
 filtr.setSourceModel(ads_fond)
 filtr.setFilterCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
 ui_window.tableView.setModel(filtr)
-ui_window.Price.textChanged.connect(lambda text: adrs(text,1))
-# ui_window.Address.textChanged.connect(lambda text: adrs(text,2))
+ui_window.Price.textChanged.connect(lambda text: nmbrs(text,1))
+ui_window.Address.textChanged.connect(lambda text: adrs(text,2))
 # ui_window.descruption.textChanged.connect(lambda text: adrs(text,3))
 
 
