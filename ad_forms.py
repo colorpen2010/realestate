@@ -40,6 +40,7 @@ class Ad_form():
         self.rid = rid
 
     def adder(self):
-        self.deff(slovar[self.group.checkedId()], self.ui_adform.price_line.text(), self.ui_adform.address_line.text(),self.ui_adform.descruption.toPlainText(),self.rid)
+        self.deff(slovar[self.group.checkedId()], self.ui_adform.price_line.text(), self.ui_adform.address_line.text(),
+                  self.ui_adform.descruption.toPlainText(), self.rid)
 
         self.adform.close()
